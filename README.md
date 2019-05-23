@@ -58,10 +58,24 @@ os.listdir(PATH)
 ```
 
 
+
+
+    ['lgbm_importances.png',
+     'sample_submission.csv',
+     'submission.csv',
+     'test',
+     'train.csv']
+
+
+
+
 ```python
 # Explore Test Folder
 print("There are {} files in test folder".format(len(os.listdir(os.path.join(PATH, 'test' )))))
 ```
+
+    There are 2624 files in test folder
+    
 
 
 ```python
@@ -69,6 +83,9 @@ print("There are {} files in test folder".format(len(os.listdir(os.path.join(PAT
 # Load Train Data
 train_df = pd.read_csv(os.path.join(PATH,'train.csv'), dtype={'acoustic_data': np.int16, 'time_to_failure': np.float32})
 ```
+
+    Wall time: 2min 9s
+    
 
 
 ```python
@@ -2771,7 +2788,7 @@ scaled_test_X.to_pickle("../dsc-5-capstone-project-online-ds-sp-000/scaled_test_
 
 # Exploring the Data
 
-## Visualizing raw data
+## Visualizing acoustic data
 
 Here I draw a plot of all acoustic data, along with the associated time to failure. I only plot 0.1% of the data, by sampling every 1000 points of data. Just before each failure there seems to be a large oscillation, but not all large oscillations have a failure following them.
 
@@ -2844,6 +2861,8 @@ print('Max Acoustic Value: {}'.format(train_df['acoustic_data'].max()))
     Max Acoustic Value: 5444
     
 
+## Visualizing time to failure
+
 Here I plot the time to failure for the first 100,000 samples. There is an interesting staircase pattern, which is a result of how the sensor measures the data in binned intervals.
 
 
@@ -2863,7 +2882,25 @@ plt.xlabel('Row')
 
 
 
-![png](output_53_1.png)
+![png](output_54_1.png)
+
+
+Here I plot the distribution of the times to failure. We see that the timings are evenly distributed between 0 and 8 seconds, with a right tail for the rarer occasions when there are long periods between earthquakes. 
+
+
+```python
+train_df['time_to_failure'].hist()
+```
+
+
+
+
+    <matplotlib.axes._subplots.AxesSubplot at 0x249c86494e0>
+
+
+
+
+![png](output_56_1.png)
 
 
 
@@ -3122,7 +3159,7 @@ rf_feature_importances.hist()
 
 
 
-![png](output_71_1.png)
+![png](output_74_1.png)
 
 
 
@@ -3267,7 +3304,7 @@ rf2_feature_importances.hist()
 
 
 
-![png](output_79_1.png)
+![png](output_82_1.png)
 
 
 
@@ -3640,7 +3677,7 @@ lgbm_feature_importances.hist()
 
 
 
-![png](output_92_1.png)
+![png](output_95_1.png)
 
 
 
@@ -3742,7 +3779,7 @@ lgbm2_feature_importances.hist()
 
 
 
-![png](output_95_1.png)
+![png](output_98_1.png)
 
 
 
@@ -3765,7 +3802,7 @@ plt.savefig(PATH + '/lgbm_importances.png')
 ```
 
 
-![png](output_98_0.png)
+![png](output_101_0.png)
 
 
 # Interpreting the Models
